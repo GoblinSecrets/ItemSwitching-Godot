@@ -1,0 +1,132 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqn4a5gd35jio"]
+
+[ext_resource type="Script" uid="uid://hklgrpvw8hdb" path="res://middleware/invman/invman.gd" id="1_2qg8b"]
+
+[sub_resource type="Animation" id="Animation_ejskh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.0621863, -0.0820822, -0.263228)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../mele/MeshInstance3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.156745, -0.00385226, -0.282796)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../mele/MeshInstance3D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.71054, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ydp5g"]
+resource_name = "Slot0"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../mele/MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.166667, 0.366667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.156745, -0.00385226, -0.282796), Vector3(0.156745, -0.0884562, -0.488668), Vector3(0.0577765, -0.0884562, -0.429707), Vector3(0.156745, -0.00385226, -0.282796)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../mele/MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.133334, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.71054, 0, 0), Vector3(-2.48404, 0, 0), Vector3(-0.242365, -3.06771, -1.36294), Vector3(-1.71054, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2qg8b"]
+resource_name = "Slot1"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.104157, 0.472127),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.101348, -0.0650168, -0.282796), Vector3(0.101348, -0.0650168, -0.22119), Vector3(0.101348, -0.0650168, -0.282796)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nrstf"]
+_data = {
+&"RESET": SubResource("Animation_ejskh"),
+&"Slot0": SubResource("Animation_ydp5g"),
+&"Slot1": SubResource("Animation_2qg8b")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_pooca"]
+
+[node name="INVMAN" type="Node3D"]
+script = ExtResource("1_2qg8b")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+fov = 90.0
+
+[node name="INVPLYR" type="AnimationPlayer" parent="."]
+root_node = NodePath("../pistol")
+libraries = {
+&"": SubResource("AnimationLibrary_nrstf")
+}
+
+[node name="tracers" type="Node3D" parent="."]
+
+[node name="hitscan1" type="RayCast3D" parent="tracers"]
+target_position = Vector3(0, 0, -2)
+
+[node name="hitscan2" type="RayCast3D" parent="tracers"]
+target_position = Vector3(0, 0, -1080)
+hit_from_inside = true
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="pistol" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0343586, 0.00505527, -0.00505455)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="pistol"]
+transform = Transform3D(0.0398075, 0, 0, 0, 0.0704331, 0, 0, 0, 0.177701, 0.0621863, -0.0820822, -0.263228)
+mesh = SubResource("BoxMesh_pooca")
+
+[node name="mele" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="mele"]
+transform = Transform3D(0.02775, 0, 0, 0, -0.00542082, 0.268571, 0, -0.0385383, -0.0377773, 0.156745, -0.00385226, -0.282796)
+mesh = SubResource("BoxMesh_pooca")
